@@ -1,3 +1,6 @@
 .vscode
 order/migrations
+order/__pycache__
+cmapp/__pycache__
+customer/__pycache__
 db.sqlite3
