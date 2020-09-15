@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="row">
+  <div class="col s12">
+    <h5>Order Form</h5>
+    <form action="/order/add/" method="post">
+      {% csrf_token %}
+      <div class="input-field">
+        <select name="name">
+          <option value="" disabled selected>Choose Customer</option>
+          {% for customer in customers %}
+            <option value="{{customer.id}}">{{customer.name}}</option>
+          {% endfor %}
+        </select>
+        <label>Customer Name</label>
+      </div>
+
+      <div class="input-field">
+        <select name="product">
+          <option value="" disabled selected>Choose Produtc</option>
+          {% for product in products %}
+            <option value="{{product.id}}">{{product.title}}</option>
+          {% endfor %}
+        </select>
+        <label>Product Title</label>
+      </div>
+
+      <div class="input-field">
+          <input id="last_name" name="quantity" type="number" class="validate">
+          <label for="last_name">Product Quantity</label>
+      </div>
+
+      <div class="input-field">
+        <select name="payment">
+          <option value="Cash" data-icon="https://bloximages.chicago2.vip.townnews.com/qctimes.com/content/tncms/assets/v3/editorial/4/81/481cb886-051d-53d7-850c-8d35bd5590b0/5b7ef571ae906.image.jpg">Cash</option>
+          <option value="Card" data-icon="https://pbs.twimg.com/profile_images/1013421144815198208/FV9IEL1U_400x400.jpg">Card</option>
+          <option value="Paypal" data-icon="https://www.paypalobjects.com/webstatic/icon/pp258.png">Paypal</option>
+          <option value="Check" data-icon="https://bloximages.chicago2.vip.townnews.com/qctimes.com/content/tncms/assets/v3/editorial/4/81/481cb886-051d-53d7-850c-8d35bd5590b0/5b7ef571ae906.image.jpg">Check</option>
+        </select>
+        <label>Payment Method</label>
+      </div>
+      <input type="submit" value="Confirm Order" class="btn">
+    </form>
+  </div>
+  <div class="col s12">
+  <h5>Order List</h5>
+    <table class="striped">
+      <thead>
+        <tr>
+            <th>Order Name</th>
+            <th>Product Name</th>
+            <th>Product Quantity</th>
+            <th>Payment Method</th>
+            <th>Order Time</th>
+            <th>Order Total</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for order in orders %}
+        <tr>
+          <td>{{order.name}}</td>
+          <td>{{order.product}}</td>
+          <td>{{order.quantity}}</td>
+          <td>{{order.payment}}</td>
+          <td>{{order.time|date:"d M Y h:m A"}}</td>
+          <td>{{ order.product.price }}</td>
+          <td> <a href="/order/delete/{{ order.id }}/" class="red-text"><span class="material-icons">delete</span></a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

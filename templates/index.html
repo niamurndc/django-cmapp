@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<div class="row">
+  <div class="col s6">
+    <h5>Customer form</h5>
+    
+    <form action="/customer/add/" method="post">
+    {% csrf_token %}
+      <div class="input-field">
+        <input name="name" type="text" class="validate">
+        <label for="last_name">Customer Name</label>
+      </div>
+      <div class="input-field">
+        <input name="email" type="email" class="validate">
+        <label for="last_name">Customer Email</label>
+      </div>
+      <div class="input-field">
+        <input name="address" type="text" class="validate">
+        <label for="last_name">Customer Address</label>
+      </div>
+      <input type="submit" value="Add Customer" class="btn">
+    </form>
+  </div>
+  <div class="col s6">
+    <h5>Product form</h5>
+    
+    <form action="/customer/product/" method="post">
+      {% csrf_token %}
+      <div class="input-field">
+        <input name="title" type="text" class="validate">
+        <label for="last_name">Product Title</label>
+      </div>
+      <div class="input-field">
+        <input name="desc" type="text" class="validate">
+        <label for="last_name">Product Desc</label>
+      </div>
+      <div class="input-field">
+        <input name="price" type="number" class="validate">
+        <label for="last_name">Product Price</label>
+      </div>
+      <input type="submit" value="Add Product" class="btn">
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col s6">
+    <h5>Customers List</h5>
+    <table class="striped">
+      <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Member Since</th>
+            <th> </th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for customer in customers %}
+        <tr>
+          <td>{{ customer.name}}</td>
+          <td>{{ customer.email }}</td>
+          <td>{{ customer.address }}</td>
+          <td>{{ customer.created|date:"M Y" }}</td>
+          <td> <a href="/customer/delete/{{ customer.id }}/" class="red-text"><span class="material-icons">delete</span></a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col s6">
+    <h5>Products List</h5>
+    <table class="striped">
+      <thead>
+        <tr>
+            <th>Title</th>
+            <th>Product Description</th>
+            <th>Product Price</th>
+            <th> </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for product in products %}
+          <tr>
+            <td>{{ product.title}}</td>
+            <td>{{ product.desc }}</td>
+            <td>${{ product.price }}</td>
+            <td> <a href="/customer/delete-product/{{ product.id }}/" class="red-text"><span class="material-icons">delete</span></a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
